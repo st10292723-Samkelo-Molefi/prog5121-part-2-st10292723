@@ -22,4 +22,4 @@ jobs:
 
     - name: Run Ant tests
       run: ant test
-      working-directory: ./prog5121-part-2-st10292723
+      working-directory: ./prog5121-part-2-st10292723/ChatSystem
