@@ -1,61 +1,47 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project name="JavaJUnitProject" default="test" basedir=".">
-    
-    <!-- Set up properties -->
-    <property name="src.dir"     value="src"/>
-    <property name="test.dir"    value="test"/>
-    <property name="build.dir"   value="build"/>
+<project name="RegistrationLoginSystem" basedir="." default="test">
+    <property name="src.dir" value="src"/>
+    <property name="build.dir" value="build"/>
     <property name="classes.dir" value="${build.dir}/classes"/>
-    <property name="test.classes.dir" value="${build.dir}/test-classes"/>
-    <property name="lib.dir"     value="lib"/>
+    <property name="test.dir" value="test"/>
+    <property name="lib.dir" value="lib"/>
+    <property name="junit.jar" value="${lib.dir}/junit-4.13.2.jar"/>
+    <property name="hamcrest.jar" value="${lib.dir}/hamcrest-core-1.3.jar"/>
 
-    <!-- Create necessary folders -->
-    <target name="init">
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="compile">
         <mkdir dir="${classes.dir}"/>
-        <mkdir dir="${test.classes.dir}"/>
+        <javac includeantruntime="false" srcdir="${src.dir}" destdir="${classes.dir}"/>
     </target>
 
-    <!-- Compile source files -->
-    <target name="compile" depends="init">
-        <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false"/>
-    </target>
-
-    <!-- Compile test files -->
-    <target name="compile-tests" depends="compile">
-        <javac srcdir="${test.dir}" destdir="${test.classes.dir}" includeantruntime="false">
+    <target name="test-compile" depends="compile">
+        <javac includeantruntime="false" srcdir="${test.dir}" destdir="${classes.dir}">
             <classpath>
                 <pathelement path="${classes.dir}"/>
-                <fileset dir="${lib.dir}">
-                    <include name="**/*.jar"/>
-                </fileset>
+                <pathelement path="${junit.jar}"/>
+                <pathelement path="${hamcrest.jar}"/>
             </classpath>
         </javac>
     </target>
 
-    <!-- Run tests -->
-    <target name="test" depends="compile-tests">
-        <mkdir dir="reports"/>
-        <junit printsummary="on" haltonfailure="yes">
+    <target name="test" depends="test-compile">
+        <mkdir dir="${build.dir}/test-results"/>
+        <junit printsummary="true" haltonfailure="false">
             <classpath>
                 <pathelement path="${classes.dir}"/>
-                <pathelement path="${test.classes.dir}"/>
-                <fileset dir="${lib.dir}">
-                    <include name="**/*.jar"/>
-                </fileset>
+                <pathelement path="${junit.jar}"/>
+                <pathelement path="${hamcrest.jar}"/>
             </classpath>
-            <formatter type="plain"/>
-            <formatter type="xml"/>
-            <batchtest fork="yes" todir="reports">
+            <batchtest todir="${build.dir}/test-results">
                 <fileset dir="${test.dir}">
                     <include name="**/*Test.java"/>
                 </fileset>
             </batchtest>
+            <formatter type="plain"/>
+            <formatter type="xml"/>
         </junit>
     </target>
-
-    <!-- Clean compiled classes and reports -->
-    <target name="clean">
-        <delete dir="${build.dir}"/>
-        <delete dir="reports"/>
-    </target>
 </project>
+`
