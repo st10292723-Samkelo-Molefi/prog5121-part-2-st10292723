@@ -8,18 +8,31 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Java
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v2
       with:
         distribution: 'temurin'
         java-version: '17'
 
+    - name: Check Ant version
+      run: ant -version
+
+    - name: Build project
+      run: ant build
+      working-directory: prog5121-part-2-st10292723/ChatSystem/
+
     - name: Run Ant tests
       run: ant test
       working-directory: prog5121-part-2-st10292723/ChatSystem/
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: prog5121-part-2-st10292723/ChatSystem/build/reports/
