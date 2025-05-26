@@ -14,6 +14,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Print directory structure
+      run: ls -R
+
     - name: Set up Java
       uses: actions/setup-java@v2
       with:
@@ -25,17 +28,17 @@ jobs:
 
     - name: Build project
       run: |
-        cd prog5121-part-2-st10292723/ChatSystem
+        cd ChatSystem
         ant build
 
     - name: Run Ant tests
       run: |
-        cd prog5121-part-2-st10292723/ChatSystem
+        cd ChatSystem
         ant test
 
     - name: Upload test results
       uses: actions/upload-artifact@v4
       with:
         name: test-results
-        path: prog5121-part-2-st10292723/ChatSystem/build/reports/
+        path: ChatSystem/build/reports/
 
