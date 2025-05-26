@@ -24,15 +24,18 @@ jobs:
       run: ant -version
 
     - name: Build project
-      run: ant build
-      working-directory: prog5121-part-2-st10292723/ChatSystem/
+      run: |
+        cd prog5121-part-2-st10292723/ChatSystem
+        ant build
 
     - name: Run Ant tests
-      run: ant test
-      working-directory: prog5121-part-2-st10292723/ChatSystem/
+      run: |
+        cd prog5121-part-2-st10292723/ChatSystem
+        ant test
 
     - name: Upload test results
       uses: actions/upload-artifact@v4
       with:
         name: test-results
         path: prog5121-part-2-st10292723/ChatSystem/build/reports/
+
